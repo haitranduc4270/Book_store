@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Form hobby</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <form action="excercise.php" method="POST" id="submit_info">
+            <h1>Form Hobby</h1>
+            <div class="form-control">
+                <h5>Your name:</h5>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Enter your name"
+                />
+            </div>
+            <div class="form-control">
+                <h5>Your class:</h5>
+                <input
+                    type="text"
+                    name="class"
+                    id="class"
+                    placeholder="Enter your class"
+                />
+            </div>
+            <div class="form-control">
+                <h5>Your University:</h5>
+                <input
+                    type="text"
+                    name="university"
+                    id="university"
+                    placeholder="Enter your university"
+                />
+            </div>
+            <div class="form-control checkbox">
+                <h5>Choose your hobby:</h5>
+                <table>
+                    <tr>
+                        <td>Hobby name:</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Read books</td>
+                        <td>
+                            <input type="radio" name="read-books" value="Yes" />
+                        </td>
+                        <td>
+                            <input type="radio" name="read-books" value="No" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sports</td>
+                        <td>
+                            <input type="radio" name="sports" value="Yes" />
+                        </td>
+                        <td>
+                            <input type="radio" name="sports" value="No" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Code</td>
+                        <td>
+                            <input type="radio" name="code" value="Yes" />
+                        </td>
+                        <td>
+                            <input type="radio" name="code" value="No" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Watch youtube</td>
+                        <td>
+                            <input
+                                type="radio"
+                                name="watch-youtube"
+                                value="Yes"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="radio"
+                                name="watch-youtube"
+                                value="No"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Travel</td>
+                        <td>
+                            <input type="radio" name="travel" value="Yes" />
+                        </td>
+                        <td>
+                            <input type="radio" name="travel" value="No" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="form-control">
+                <input
+                    form="submit_info"
+                    class="submit-btn btn"
+                    type="submit"
+                    value="Submit Form"
+                />
+                <input
+                    form="submit_info"
+                    class="reset-btn btn"
+                    type="reset"
+                    value="Reset Form"
+                />
+            </div>
+        </form>
+    </body>
+</html>
