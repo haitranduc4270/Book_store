@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=s, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <style>
+            div {
+                padding-bottom: 50px;
+            }
+        </style>
+        <a
+            href=""
+            style="color: red"
+            onmouseover="mouseOver('red')"
+            onmouseout="mouseOut('red')"
+            >RED</a
+        >
+        <div id="red">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur
+            totam voluptatum alias recusandae quae rem, blanditiis, cumque quos
+            ducimus et labore! Autem repellat cupiditate cumque rerum, iure
+            voluptatibus aliquam natus!
+        </div>
+        <a
+            href=""
+            style="color: green"
+            onmouseover="mouseOver('green')"
+            onmouseout="mouseOut('green')"
+            >GREEN</a
+        >
+        <div id="green">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit
+            porro maxime quibusdam hic, facilis debitis mollitia ad eum velit
+            enim dolorem qui distinctio praesentium id. Modi ducimus
+            consequuntur rerum beatae.
+        </div>
+        <a
+            href=""
+            style="color: blue"
+            onmouseover="mouseOver('blue')"
+            onmouseout="mouseOut('blue')"
+            >BLUE</a
+        >
+        <div id="blue">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora
+            impedit consectetur cumque quidem eum maiores nihil odio veniam
+            explicabo! Aliquam voluptas labore natus placeat? Libero veritatis
+            sed in expedita minima.
+        </div>
+
+        <script>
+            function mouseOver(x) {
+                document.getElementById(x).style.color = x;
+            }
+            function mouseOut(x) {
+                document.getElementById(x).style.color = "black";
+            }
+        </script>
+    </body>
+</html>

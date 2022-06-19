@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 550px;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Right</title>
+</head>
+<body style="height: 550px;">
+    <form 
+      id="right" 
+      class="container-right" 
+      style="
+        border-radius: 5px;
+        height: 550px; 
+      ">
+      <textarea
+        type="text" 
+        id="input" 
+        style="
+          height: 550px;
+          width: 100%;
+          padding: 0;"
+        ></textarea>
+      <input 
+        type="submit" 
+        value="OK" 
+        style="
+
+        "
+        ></input>
+    </form>
+    <script>
+
+    function setCookie(cname, cvalue) {
+      const d = new Date();
+      d.setTime(d.getTime() + (24*60*60*1000));
+      let expires = "expires="+ d.toUTCString();
+      document.cookie = "blog=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function saveCookie() {
+      let blog = document.getElementById("input").value;
+      console.log(blog);
+      setCookie("blog", blog); 
+    }
+  document.getElementById("right").onsubmit=function(){saveCookie()};
+    </script>
+</body>
+</html>
