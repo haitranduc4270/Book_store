@@ -1,0 +1,14 @@
+@import "../../App.scss";
+
+.ourBook_page {
+    margin-top: $height_navbar;
+
+    .container {
+        max-width: 1170px;
+        margin: 100px auto;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 30px 30px;
+    }
+}
