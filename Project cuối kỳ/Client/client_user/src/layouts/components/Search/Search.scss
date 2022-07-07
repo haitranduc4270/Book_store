@@ -1,0 +1,92 @@
+@import "../../../App.scss";
+
+.search_wrap {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(42, 42, 42, 0.8);
+
+    .search_form {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+
+        input,
+        select {
+            height: 70%;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search_input {
+            width: 260px;
+            outline: none;
+            border: none;
+            padding: 8px 10px;
+            font-size: 1.4rem;
+            line-height: 1.6rem;
+            font-weight: 400;
+            caret-color: $primary_color;
+
+            // &::placeholder {
+            //     color: #fff;
+            //     opacity: 1; /* Firefox */
+            // }
+
+            // &:-ms-input-placeholder {
+            //     /* Internet Explorer 10-11 */
+            //     color: #fff;
+            // }
+
+            // &::-ms-input-placeholder {
+            //     /* Microsoft Edge */
+            //     color: #fff;
+            // }
+        }
+
+        .search_type {
+            option {
+                padding: 8px 12px;
+                color: #333;
+                font-size: 1.4rem;
+                line-height: 1.6rem;
+                cursor: pointer;
+            }
+        }
+
+        .search_button {
+            width: 150px;
+            outline: none;
+            border: none;
+            color: #fff;
+            background-color: $primary_color;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $secondary_color;
+                animation: fadeOutButton linear 0.3s;
+            }
+        }
+    }
+
+    &.active {
+        display: block;
+        animation: searchShow linear 0.3s;
+    }
+}
+
+@keyframes searchShow {
+    from {
+        opacity: 0;
+        // //height: 0;
+        // transform: translateY(-49px);
+    }
+    to {
+        opacity: 1;
+        // transform: translateY(0);
+        //height: 50px;
+    }
+}
