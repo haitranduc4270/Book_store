@@ -10,7 +10,7 @@ import "./HomeLayout.scss";
 const Wellcome = () => {
     return (
         <div className="wellcome_wrap">
-            <div className="grid wide">
+            <div className="wide">
                 <HeadHomeLayout
                     title="Welcome To The Library"
                     slogan="Welcome to the Most Popular Library Today"

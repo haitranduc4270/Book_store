@@ -39,6 +39,15 @@ const Sliders = () => {
         autoplaySpeed: 2000,
         nextArrow: <HandleNextArrow />,
         prevArrow: <HandlePrevArrow />,
+        responsive: [
+            {
+                breakpoint: 600,
+                settings: {
+                    dots: false,
+                    arrows: false,
+                },
+            },
+        ],
     };
 
     return (
@@ -47,7 +56,7 @@ const Sliders = () => {
                 <img src={images.slider1} alt="" className="slider_image" />
 
                 <div className="slider_text">
-                    <div className="grid wide">
+                    <div className="wide">
                         <h2>ARE YOU SEARCHING A BOOK...?</h2>
                         <h1>BIGGEST LIBRARY</h1>
                         <p>

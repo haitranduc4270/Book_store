@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { publicRoutes } from "./routes";
 import DefaultLayout from "./layouts/DefaultLayout";
+import UserContextProvider from "./contexts/UserContext";
 
 // React Router Dom v6: Scroll To Top on Route Change
 const ScrollToTop = ({ children }) => {
@@ -20,40 +21,42 @@ const ScrollToTop = ({ children }) => {
 
 function App() {
     return (
-        <Router>
-            <div className="App">
-                <ScrollToTop>
-                    <Routes>
-                        {publicRoutes.map((route, index) => {
-                            const Page = route.component;
-                            let Layout = DefaultLayout;
+        <UserContextProvider>
+            <Router>
+                <div className="App">
+                    <ScrollToTop>
+                        <Routes>
+                            {publicRoutes.map((route, index) => {
+                                const Page = route.component;
+                                let Layout = DefaultLayout;
 
-                            if (route.layout === null) {
-                                Layout = Fragment;
-                            }
+                                if (route.layout === null) {
+                                    Layout = Fragment;
+                                }
 
-                            return (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={
-                                        <Layout>
-                                            <Page
-                                                authRoute={
-                                                    route.authRoute
-                                                        ? route.authRoute
-                                                        : null
-                                                }
-                                            />
-                                        </Layout>
-                                    }
-                                />
-                            );
-                        })}
-                    </Routes>
-                </ScrollToTop>
-            </div>
-        </Router>
+                                return (
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        element={
+                                            <Layout>
+                                                <Page
+                                                    authRoute={
+                                                        route.authRoute
+                                                            ? route.authRoute
+                                                            : null
+                                                    }
+                                                />
+                                            </Layout>
+                                        }
+                                    />
+                                );
+                            })}
+                        </Routes>
+                    </ScrollToTop>
+                </div>
+            </Router>
+        </UserContextProvider>
     );
 }
 

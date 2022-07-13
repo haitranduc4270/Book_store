@@ -7,6 +7,11 @@
     position: relative;
     height: 480px;
 
+    .wide {
+        max-width: 1170px;
+        margin: 0 auto;
+    }
+
     &_image {
         width: 100%;
         height: 100%;
@@ -84,5 +89,59 @@
     & li.slick-active button:before {
         opacity: 1;
         color: $primary_color;
+    }
+}
+
+/* ===================== MEDIA QUERIES (MEDIUM SERVICE)================== */
+@media screen and (max-width: 1024px) {
+    .slider {
+        height: 400px;
+        .wide {
+            width: 600px;
+        }
+        &_text {
+            h2 {
+                margin: 100px 0px 0px;
+                font-size: 3rem;
+            }
+
+            h1 {
+                font-size: 6rem;
+
+                line-height: 6rem;
+            }
+        }
+    }
+}
+
+/* ===================== MEDIA QUERIES (SMALL SERVICE) =================== */
+@media screen and (max-width: 600px) {
+    .slider {
+        height: 200px;
+        .wide {
+            width: 90%;
+        }
+        &_text {
+            h2 {
+                margin: 36px 0px 0px;
+                font-size: 2rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+                line-height: 3rem;
+                margin: 0;
+            }
+            p {
+                display: none;
+                font-size: 1.2rem;
+            }
+
+            a {
+                padding: 4px;
+                margin: 0;
+                margin-top: 6px;
+            }
+        }
     }
 }
