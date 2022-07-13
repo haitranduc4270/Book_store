@@ -59,16 +59,25 @@
                 }
             }
 
-            .description {
-                margin: 20px 0;
+            .description_wrap {
                 padding: 20px 0;
+                margin: 20px 0;
                 border-top: 2px solid #ccc;
                 border-bottom: 2px solid #ccc;
-                font-size: 1.6rem;
-                line-height: 2rem;
-                font-weight: 400;
-                text-align: justify;
-                color: $text_color;
+                .description {
+                    min-height: 120px;
+                    font-size: 1.6rem;
+                    line-height: 2rem;
+                    font-weight: 400;
+                    text-align: justify;
+                    color: $text_color;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 7;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    word-break: break-word;
+                }
             }
 
             .price_action {
@@ -105,6 +114,7 @@
                                 text-align: center;
                                 padding-top: 2px;
                                 cursor: default;
+                                user-select: none;
                             }
 
                             &:first-child p {
@@ -113,15 +123,16 @@
                                 cursor: pointer;
                             }
 
-                            &:first-child.disabled p {
-                                background-color: #eee;
-                                cursor: no-drop;
-                            }
-
                             &:last-child p {
                                 border-top-right-radius: 5px;
                                 border-bottom-right-radius: 5px;
                                 cursor: pointer;
+                            }
+
+                            &:first-child.disabled p,
+                            &:last-child.disabled p {
+                                background-color: #eee;
+                                cursor: no-drop;
                             }
                         }
                     }

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
-
-import "./HomeLayout.scss";
-import HeadHomeLayout from "~/components/HeadHomeLayout";
 import {
     HiOutlineArrowNarrowLeft,
     HiOutlineArrowNarrowRight,
 } from "react-icons/hi";
+
+import "./HomeLayout.scss";
 import BookItem from "~/components/BookItem";
+import HeadHomeLayout from "~/components/HeadHomeLayout";
+import config from "~/Config";
 
 const HandleNextArrow = (props) => {
     const { className, style, onClick } = props;
@@ -31,7 +32,7 @@ const HandlePrevArrow = (props) => {
     );
 };
 
-const TopCategory = () => {
+const TopCategory = ({ data }) => {
     const settings = {
         dots: false,
         infinite: true,
@@ -42,13 +43,50 @@ const TopCategory = () => {
         autoplaySpeed: 2000,
         nextArrow: <HandleNextArrow />,
         prevArrow: <HandlePrevArrow />,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    initialSlide: 2,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
     };
 
     const [typeBookShow, setTypeBookShow] = useState(0);
 
+    const handleTypeBook = (index) => {
+        setTypeBookShow(index);
+
+        // const category = document.querySelector(".topCategory_wrap");
+        // const typeBooks = category.querySelectorAll(".book_wrap .list");
+        // const typeBookActive = category.querySelector(
+        //     ".book_wrap .list.active"
+        // );
+
+        // typeBookActive.classList.remove("active");
+        // typeBooks[index].classList.add("active");
+    };
+
     return (
         <div className="topCategory_wrap">
-            <div className="grid wide">
+            <div className="wide">
                 <HeadHomeLayout
                     whiteColor
                     title="Our Top Categories"
@@ -57,301 +95,48 @@ const TopCategory = () => {
 
                 <div className="type_wrap">
                     <ul className="list">
-                        <li
-                            className="item active"
-                            onClick={() => setTypeBookShow(0)}
-                        >
-                            Fantasy
-                        </li>
-                        <li className="item" onClick={() => setTypeBookShow(1)}>
-                            Mystery
-                        </li>
-                        <li className="item" onClick={() => setTypeBookShow(2)}>
-                            Thriller
-                        </li>
-                        <li className="item" onClick={() => setTypeBookShow(3)}>
-                            Dystopian
-                        </li>
-                        <li className="item" onClick={() => setTypeBookShow(4)}>
-                            Contemporary
-                        </li>
-                        <li className="item" onClick={() => setTypeBookShow(5)}>
-                            Sci-Fi
-                        </li>
+                        {config.typeBooks.map((typeBook, index) => {
+                            return (
+                                <li
+                                    key={index}
+                                    className={
+                                        typeBookShow === index
+                                            ? "item active"
+                                            : "item"
+                                    }
+                                    onClick={() => {
+                                        handleTypeBook(index);
+                                    }}
+                                >
+                                    {typeBook}
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
-                <div className="book_wrap">
-                    <div className="list active">
-                        <Slider {...settings}>
-                            <BookItem />
-                            <BookItem />
-                            <BookItem />
-                            <BookItem />
-                            <BookItem />
-                        </Slider>
-                    </div>
 
-                    {/* <div className="list active">
-                        <Slider {...settings}>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">
-                                        Nobita Lorem, ipsum dolor sit amet
-                                        consectetur adipisicing elit. Nostrum,
-                                        voluptatum sunt obcaecati, dolor eveniet
-                                        quae maiores molestiae nemo, quia animi
-                                        consequuntur laboriosam! Veritatis
-                                        pariatur, ab dignissimos consectetur
-                                        reiciendis fugiat quod?
-                                    </p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
+                {/* Truy vấn top 5 loại sách xong cho vào 1 mảng lớn [[top 5 loai 1], [top 5 loai 2], [top 5 loai 3]]  Rồi duyệt qua 2 lượt như cái trên*/}
+                <div className="book_wrap">
+                    {data.map((typeBook, index) => {
+                        return (
+                            <div
+                                className={
+                                    index === typeBookShow
+                                        ? "list active"
+                                        : "list"
+                                }
+                                key={index}
+                            >
+                                <Slider {...settings}>
+                                    {typeBook.map((book, index) => {
+                                        return (
+                                            <BookItem key={index} data={book} />
+                                        );
+                                    })}
+                                </Slider>
                             </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                        </Slider>
-                    </div>
-                    <div className="list active">
-                        <Slider {...settings}>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">
-                                        Nobita Lorem, ipsum dolor sit amet
-                                        consectetur adipisicing elit. Nostrum,
-                                        voluptatum sunt obcaecati, dolor eveniet
-                                        quae maiores molestiae nemo, quia animi
-                                        consequuntur laboriosam! Veritatis
-                                        pariatur, ab dignissimos consectetur
-                                        reiciendis fugiat quod?
-                                    </p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                        </Slider>
-                    </div>
-                    <div className="list active">
-                        <Slider {...settings}>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">
-                                        Nobita Lorem, ipsum dolor sit amet
-                                        consectetur adipisicing elit. Nostrum,
-                                        voluptatum sunt obcaecati, dolor eveniet
-                                        quae maiores molestiae nemo, quia animi
-                                        consequuntur laboriosam! Veritatis
-                                        pariatur, ab dignissimos consectetur
-                                        reiciendis fugiat quod?
-                                    </p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="wrap_show">
-                                    <img
-                                        src={images.book1}
-                                        alt=""
-                                        className="img"
-                                    />
-                                    <p className="name">Nobita</p>
-                                </div>
-                                <div className="wrap_hover">
-                                    <p className="name">Doraemon</p>
-                                    <p className="author">Toyota</p>
-                                    <button className="btn">Add to Cart</button>
-                                </div>
-                            </div>
-                        </Slider>
-                    </div> */}
+                        );
+                    })}
                 </div>
             </div>
         </div>

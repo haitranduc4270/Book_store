@@ -1,42 +1,78 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { BsTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
+import emailjs from "emailjs-com";
 
 import HeadContentPage from "~/components/HeadContentPage";
 import "./Contact.scss";
 import Button from "~/components/Button";
+import Dialog from "~/components/Dialog";
 
 const Contact = () => {
+    const [showDialog, setShowDialog] = useState(false);
+
+    const form = useRef();
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs
+            .sendForm(
+                "service_gqm7rrd",
+                "template_szdtxwq",
+                form.current,
+                "quxGAOJKtMEWrVtWL"
+            )
+            .then(
+                (result) => {
+                    console.log(result.text);
+                },
+                (error) => {
+                    console.log(error.text);
+                }
+            );
+
+        e.target.reset();
+        setShowDialog(true);
+    };
+
     return (
         <div className="contact_page">
+            {showDialog && <Dialog handleDialog={setShowDialog} />}
             <HeadContentPage link="Contact" />
 
             <div className="content">
-                <div className="input_wrap">
+                <form ref={form} onSubmit={sendEmail} className="input_wrap">
                     <div className="info">
                         <div className="input_text-wrap">
                             <label htmlFor="">Name</label>
                             <input
                                 type="text"
+                                name="name"
                                 placeholder="Name *"
                                 className="input_fild"
+                                required
                             />
                         </div>
                         <div className="input_text-wrap">
                             <label htmlFor="">Email</label>
                             <input
                                 type="text"
+                                name="email"
                                 placeholder="Email *"
                                 className="input_fild"
+                                required
                             />
                         </div>
                         <div className="input_text-wrap">
                             <label htmlFor="">Phone</label>
                             <input
                                 type="text"
+                                name="phone"
                                 placeholder="Phone *"
                                 className="input_fild"
+                                required
                             />
                         </div>
                     </div>
@@ -44,13 +80,15 @@ const Contact = () => {
                         <label htmlFor="">Message</label>
                         <textarea
                             type="text"
-                            placeholder="add to your message"
+                            name="message"
+                            placeholder="Add to your message"
+                            required
                         />
                     </div>
-                    <Button className="subscribe_btn submit_mess">
+                    <Button type="submit" className="subscribe_btn submit_mess">
                         Submit Message
                     </Button>
-                </div>
+                </form>
                 <div className="contact_wrap">
                     <div className="title ">
                         <h1>GET IN TOUCH</h1>

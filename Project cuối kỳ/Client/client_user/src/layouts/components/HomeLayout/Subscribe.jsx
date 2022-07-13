@@ -9,7 +9,7 @@ import Button from "~/components/Button";
 const Subscribe = () => {
     return (
         <div className="subscribe_wrap">
-            <div className="grid wide">
+            <div className="wide">
                 <HeadHomeLayout
                     title="Subscribe Our Newsletter"
                     slogan="Subscribe here with your email us and get up to date"

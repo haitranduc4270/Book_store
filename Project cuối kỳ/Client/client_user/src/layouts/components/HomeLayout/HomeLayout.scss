@@ -3,6 +3,8 @@
 @import "~slick-carousel/slick/slick-theme.css";
 
 .wellcome_wrap {
+    max-width: 1170px;
+    margin: 0 auto;
     margin-bottom: 100px;
     .type_list {
         display: grid;
@@ -96,6 +98,10 @@
     background-repeat: no-repeat;
     background-size: cover;
 
+    .wide {
+        max-width: 1170px;
+        margin: 0 auto;
+    }
     .type_wrap {
         width: 100%;
         display: flex;
@@ -117,7 +123,7 @@
                 font-weight: 300;
                 line-height: 2.2rem;
                 margin: 0px 4px;
-                padding: 19px 20px;
+                padding: 19px 50px;
                 text-align: center;
                 cursor: pointer;
                 transition: all 0.15s linear;
@@ -139,6 +145,12 @@
         padding-bottom: 100px;
 
         .list {
+            display: none;
+
+            &.active {
+                display: block;
+            }
+
             .item {
                 position: relative;
 
@@ -242,18 +254,27 @@
 }
 
 .topPopular_wrap {
-    & .book {
+    .wide {
+        max-width: 1170px;
+        margin: 0 auto;
+    }
+    .book {
         display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 30px;
         margin-bottom: 100px;
 
         .book_detail {
-            display: grid;
+            display: none;
             grid-template-columns: 1fr 1fr;
             height: 440px;
-            border: 1px solid #f0f0f0;
+            border: 1px solid #ccc;
             padding: 10px 20px 10px 10px;
+
+            &.active {
+                display: grid;
+            }
+
             .img {
                 height: 100%;
                 width: 247px;
@@ -285,6 +306,12 @@
                     font-weight: 300;
                     line-height: 2.2rem;
                     margin: 0px 0px 9px;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 12;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    word-break: break-word;
                 }
 
                 .wrap {
@@ -324,7 +351,7 @@
 
             .book_item {
                 padding: 5px;
-                border: 1px solid #f0f0f0;
+                border: 1px solid #ccc;
                 text-align: center;
                 transition: all 0.15s linear;
                 cursor: pointer;
@@ -348,6 +375,11 @@
         url(../../../assets/images/testimonials-bg2.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+
+    .wide {
+        max-width: 1170px;
+        margin: 0 auto;
+    }
 
     .list {
         padding-bottom: 100px;
@@ -438,6 +470,10 @@
 
 .subscribe_wrap {
     margin-bottom: 100px;
+    .wide {
+        max-width: 1170px;
+        margin: 0 auto;
+    }
     .wrap {
         display: flex;
         justify-content: center;
@@ -470,6 +506,150 @@
                 font-weight: 300;
                 color: #666;
                 margin-left: 4px;
+            }
+        }
+    }
+}
+
+/* ===================== MEDIA QUERIES (MEDIUM SERVICE)================== */
+@media screen and (max-width: 1024px) {
+    .wellcome_wrap {
+        margin-bottom: 100px;
+        .wide {
+            padding: 0 12px;
+        }
+        .type_list {
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+    }
+
+    .topCategory_wrap {
+        .wide {
+            padding: 0 12px;
+        }
+        .type_wrap {
+            .list {
+                width: 85%;
+
+                .item {
+                    padding: 19px 20px;
+                }
+            }
+        }
+    }
+
+    .topPopular_wrap {
+        .wide {
+            padding: 0 12px;
+        }
+        .book {
+            display: flex;
+            flex-direction: column-reverse;
+
+            .book_detail {
+                grid-template-columns: 4fr 6fr;
+                column-gap: 30px;
+
+                .img {
+                    width: 35vw;
+                }
+            }
+
+            .book_list {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 0;
+                margin-bottom: 30px;
+
+                .book_item {
+                    .img {
+                        width: 14vw;
+                        height: 185px;
+                        object-fit: fill;
+                    }
+                }
+            }
+        }
+    }
+
+    .subscribe_wrap {
+        .wide {
+            padding: 0 12px;
+        }
+        .wrap {
+            .input {
+                width: 340px;
+
+                input {
+                    width: 300px;
+                }
+            }
+        }
+    }
+}
+
+/* ===================== MEDIA QUERIES (SMALL SERVICE) =================== */
+@media screen and (max-width: 600px) {
+    .wellcome_wrap {
+        .type_list {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+    }
+    .topCategory_wrap {
+        .type_wrap {
+            .list {
+                width: 100%;
+
+                .item {
+                    padding: 19px 4px;
+                }
+            }
+        }
+
+        .book_wrap .list .slick-arrow {
+            top: 32px;
+        }
+    }
+
+    .topPopular_wrap {
+        .book {
+            .book_detail {
+                height: auto;
+                padding: 10px;
+
+                &.active {
+                    display: block;
+
+                    .img {
+                        width: 100%;
+                    }
+                }
+            }
+
+            .book_list {
+                .book_item {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .subscribe_wrap {
+        .wrap {
+            flex-direction: column;
+            height: auto;
+            .input {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            button {
+                width: 100%;
+                padding: 6.8px;
+                margin-top: 12px;
             }
         }
     }
