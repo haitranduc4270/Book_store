@@ -16,9 +16,7 @@ app.addRoute(UserRoute);
 app.use(function errorHandler(req, res, next) {
     res.statusCode = 400;
     res.setHeader('Content-Type', 'application/json');
-    res.write(JSON.stringify(
-        '404 not found'
-    ))
+    res.write('404 not found');
     res.end();
 })
 

@@ -8,31 +8,26 @@ async function getBooks(req, res, next) {
             const books = await Books.findById(new mongoose.Types.ObjectId(bookId));
             res.write(JSON.stringify(books));
             res.end();
-            return;
         }
         else if(top) {
             const books = await Books.find().limit(top);
             res.write(JSON.stringify(books));
             res.end();
-            return;
         }
         else if(name) {
             const books = await Books.find({ name: name});
             res.write(JSON.stringify(books));
             res.end();
-            return;
         }
         else if(author) {
             const books = await Books.find({ author: author});
             res.write(JSON.stringify(books));
             res.end();
-            return;
         }
         else if(type) {
             const books = await Books.find({ type: type});
             res.write(JSON.stringify(books));
             res.end();
-            return;
         }
         else if( page && perPage) {
             const skip = (page - 1) * perPage;
@@ -40,7 +35,6 @@ async function getBooks(req, res, next) {
                 const books = await Books.find().limit(perPage).skip();
                 res.write(JSON.stringify(books));
                 res.end();
-                return;
             }
             else throw({
                 err: 'Page too small'

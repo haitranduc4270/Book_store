@@ -13,7 +13,6 @@ async function getUsers(req, res, next) {
             );
             res.write(JSON.stringify(users));
             res.end();
-            return;
         }
         else if(email) {
             const users = await Users.find({ email: email}, { publicKey: 0 }).populate(
@@ -23,7 +22,6 @@ async function getUsers(req, res, next) {
             );
             res.write(JSON.stringify(users));
             res.end();
-            return;
         }
         else if( page && perPage) {
             const skip = (page - 1) * perPage;
@@ -34,11 +32,18 @@ async function getUsers(req, res, next) {
                     });
                 res.write(JSON.stringify(books));
                 res.end();
-                return;
             }
-            else throw({
-                err: 'page too small'
-            })
+            else {
+                res.statusCode = 400;
+                res.write(JSON.stringify(
+                    {
+
+                        err: 'page too small'
+                    }
+                ));
+                res.end();
+            
+            }
         }
         else{
             const users = await Users.find({}, { publicKey: 0 }).populate(
@@ -92,9 +97,34 @@ async function getUsersByEmail(req, res, next) {
 async function addUser(req, res, next) {
     try{
         const newUser = req.body;
-        const user  = await Users.create(newUser);
-        res.write(JSON.stringify(user));
-        res.end();
+        if(newUser.email && newUser.publicKey){
+            const user = await Users.findOne({email: newUser.email});
+            if(user) {
+                res.statusCode = 400;
+                res.write(JSON.stringify(
+                    {
+                        mes: 'Email has exit'
+                    }
+                ));
+                res.end();
+            }
+            else {
+                const user  = await Users.create(newUser);
+                res.write(JSON.stringify(user));
+                res.end();
+            }
+        }
+        else {
+            res.statusCode = 400;
+            res.write(JSON.stringify(
+                {
+                    mes: 'Missing require infomation'
+                }
+            ));
+            res.end();
+        }
+
+        
     }
     catch(err) {
         console.log(err);
@@ -128,7 +158,7 @@ async function updateUser(req, res, next) {
             res.end();
             return;
         }
-        else if(!await Users.findById(new mongoose.Types.ObjectId(userId))){
+        else if(!await Users.findById(new mongoose.Types.ObjectId(userId))){ 
             res.statusCode = 400;
             res.write(JSON.stringify(
                 {
@@ -139,9 +169,21 @@ async function updateUser(req, res, next) {
             return;
         }
         else{
-            await Users.findByIdAndUpdate(new mongoose.Types.ObjectId(userId), body);
-            res.write(JSON.stringify(body));
-            res.end();
+            const user = await Users.findOne({email: body.email});
+            if(user && user._id.toString() !== body._id)  {
+                res.statusCode = 400;
+                res.write(JSON.stringify(
+                    {
+                        mes: 'Email has been used by anoter user'
+                    }
+                ));
+                res.end();
+            }
+            else {
+                await Users.findByIdAndUpdate(new mongoose.Types.ObjectId(userId), body);
+                res.write(JSON.stringify(body));
+                res.end();
+            }
         }
     }
     catch(err) {
