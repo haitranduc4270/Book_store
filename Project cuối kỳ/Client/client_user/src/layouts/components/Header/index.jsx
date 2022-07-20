@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BiSearchAlt2, BiMenu } from "react-icons/bi";
-// import { BsCartCheck } from "react-icons/bs";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdAddShoppingCart } from "react-icons/md";
 
