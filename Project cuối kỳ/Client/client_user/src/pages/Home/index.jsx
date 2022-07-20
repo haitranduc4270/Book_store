@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Dialog from "~/components/Dialog";
 import Spinner from "~/components/Spinner";
 import config from "~/Config";
 import Subscribe from "~/layouts/components/HomeLayout/Subscribe";
@@ -15,14 +16,18 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [typeBooksData, setTypeBooksData] = useState([]);
     const [popularBooksData, setPopularBooksData] = useState([]);
+    const [showDialog, setShowDialog] = useState(false);
+
+    const alertData = {
+        title: "Add To Cart",
+        message: "Add Cart To Successfully!",
+    };
 
     useEffect(() => {
-        // setLoading(true);
-
         const typeBooks = [];
-        const topPopular = request.get("bookType2");
+        const topPopular = request.get("books?top=6");
         config.typeBooks.forEach((typeBook, index) => {
-            typeBooks[index] = request.get("bookType1");
+            typeBooks[index] = request.get(`books?type=${typeBook}`);
         });
 
         axios
@@ -34,7 +39,10 @@ const Home = () => {
                     });
                     let popularData = newData.pop();
 
-                    setTypeBooksData(newData);
+                    let TopData = newData.map((data) => {
+                        return data.slice(0, 5);
+                    });
+                    setTypeBooksData(TopData);
                     setPopularBooksData(popularData);
 
                     setLoading(false);
@@ -52,9 +60,15 @@ const Home = () => {
                 <Spinner />
             ) : (
                 <>
+                    {showDialog && (
+                        <Dialog handleDialog={setShowDialog} data={alertData} />
+                    )}
                     <Slider />
                     <Wellcome />
-                    <TopCategory data={typeBooksData} />
+                    <TopCategory
+                        data={typeBooksData}
+                        handleDialog={setShowDialog}
+                    />
                     <TopPopular data={popularBooksData} />
                     <Testimonials />
                     <Subscribe />

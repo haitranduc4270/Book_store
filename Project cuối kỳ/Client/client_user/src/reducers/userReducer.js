@@ -1,12 +1,24 @@
 export const userReducer = (state, action) => {
-    const { type, payload } = action;
+    const {
+        type,
+        payload: { isAuthenticated, userData },
+    } = action;
 
     switch (type) {
-        case "CARTS_LOADED_SUCCESS":
+        case "SET_AUTH":
             return {
                 ...state,
-                carts: payload,
-                cartsLoading: false,
+                loading: false,
+                isAuthenticated,
+                userData,
+            };
+
+        case "UPDATE_USER_INFO":
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated,
+                userData,
             };
         default:
             return state;

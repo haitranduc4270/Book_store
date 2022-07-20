@@ -43,24 +43,40 @@ const Footer = () => {
                     <p>Copyrights © 2015-16 KodeForest. All rights reserved</p>
                     <ul className="social_list">
                         <li className="social_item">
-                            <Link to="/">
+                            <a
+                                href="https://www.facebook.com/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 <FaFacebookF className="icon" />
-                            </Link>
+                            </a>
                         </li>
                         <li className="social_item">
-                            <Link to="/">
+                            <a
+                                href="https://twitter.com/?lang=vi"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 <AiOutlineTwitter className="icon" />
-                            </Link>
+                            </a>
                         </li>
                         <li className="social_item">
-                            <Link to="/">
+                            <a
+                                href="https://www.youtube.com"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 <AiFillYoutube className="icon" />
-                            </Link>
+                            </a>
                         </li>
                         <li className="social_item">
-                            <Link to="/">
+                            <a
+                                href="https://github.com/haitranduc4270/project_web_20212"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
                                 <AiOutlineGithub className="icon" />
-                            </Link>
+                            </a>
                         </li>
                     </ul>
                 </div>

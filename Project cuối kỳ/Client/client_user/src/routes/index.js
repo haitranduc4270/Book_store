@@ -5,18 +5,23 @@ import CartOrder from "~/pages/CartOrder";
 import NotFound from "~/pages/NotFound";
 import Auth from "~/pages/Auth";
 import OurBookDetail from "~/pages/OurBookDetail";
+import Profile from "~/pages/Profile";
+import SearchPage from "~/pages/SearchPage";
 
 const publicRoutes = [
+    { path: "/login", component: Auth, authRoute: "login" },
+    { path: "/register", component: Auth, authRoute: "register" },
+    { path: "*", component: NotFound },
+];
+
+const privateRoutes = [
     { path: "/", component: Home },
-    { path: "/login", component: Auth, authRoute: "login", layout: null },
-    { path: "/register", component: Auth, authRoute: "register", layout: null },
     { path: "/book", component: OurBook },
     { path: "/book/:id", component: OurBookDetail },
     { path: "/contact", component: Contact },
     { path: "/cartOrder", component: CartOrder },
-    { path: "*", component: NotFound, layout: null },
+    { path: "/user/:id", component: Profile },
+    { path: "/search", component: SearchPage },
 ];
-
-const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };
