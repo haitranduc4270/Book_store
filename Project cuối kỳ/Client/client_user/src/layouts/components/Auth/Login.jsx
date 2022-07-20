@@ -1,28 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { BsFillPersonFill } from "react-icons/bs";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { FaSpinner } from "react-icons/fa";
 
 import "./Auth.scss";
 import images from "~/assets/images";
 import { UserContext } from "~/contexts/UserContext";
 
 const Login = () => {
+    const [messServerError, setMessServerError] = useState(null);
+    const [submitLoading, setSubmitLoading] = useState(false);
+    const navigate = useNavigate();
+
     //  Handle Context
     const { loginUser } = useContext(UserContext);
 
-    let errorMess = null;
     const handleLogin = async (loginForm) => {
         try {
             const loginData = await loginUser(loginForm);
 
-            if (loginData === undefined) {
-                errorMess = "Email or password is incorrect!";
+            setSubmitLoading(false);
+            if (!loginData.success) {
+                setMessServerError("Email or password is incorrect!");
+            } else {
+                navigate("/");
             }
-            console.log(errorMess);
         } catch (error) {
             console.log(error);
         }
@@ -41,14 +47,15 @@ const Login = () => {
                     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     "Please enter a valid email address"
                 ),
-            password: Yup.string().required("Password is required!"),
-            // .matches(
-            //     "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$",
-            //     "Minimum eight characters, at least one letter and one number"
-            // ),
+            password: Yup.string()
+                .required("Password is required!")
+                .matches(
+                    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                    "Minimum eight characters, at least one letter and one number"
+                ),
         }),
         onSubmit: (values) => {
-            // console.log(values);
+            setSubmitLoading(true);
             handleLogin(values);
         },
     });
@@ -67,14 +74,20 @@ const Login = () => {
                         type="text"
                         name="email"
                         value={formik.values.email}
-                        onChange={formik.handleChange}
+                        onChange={(e) => {
+                            setMessServerError(null);
+                            formik.handleChange(e);
+                        }}
                         placeholder="Enter your email"
                     />
                 </div>
-                {formik.errors.email && (
+                {formik.errors.email ? (
                     <p className="error_mess">{formik.errors.email}</p>
+                ) : messServerError !== null ? (
+                    <p className="error_mess">{messServerError}</p>
+                ) : (
+                    <p className="error_mess"></p>
                 )}
-                <p className="error_mess">{errorMess}</p>
             </div>
 
             <div className="input_wrap">
@@ -84,19 +97,24 @@ const Login = () => {
                         type="password"
                         name="password"
                         value={formik.values.password}
-                        onChange={formik.handleChange}
+                        onChange={(e) => {
+                            setMessServerError(null);
+                            formik.handleChange(e);
+                        }}
                         placeholder="Enter your password"
                     />
                 </div>
-                {formik.errors.password && (
+                {formik.errors.password ? (
                     <p className="error_mess">{formik.errors.password}</p>
-                )}
-                {errorMess !== null && (
-                    <p className="error_mess">{errorMess}</p>
+                ) : messServerError !== null ? (
+                    <p className="error_mess">{messServerError}</p>
+                ) : (
+                    <p className="error_mess"></p>
                 )}
             </div>
             <button type="submit" className="login_btn">
-                Login
+                {submitLoading && <FaSpinner className="icon" />}
+                <p>Login</p>
             </button>
 
             <span className="navi_wrap">

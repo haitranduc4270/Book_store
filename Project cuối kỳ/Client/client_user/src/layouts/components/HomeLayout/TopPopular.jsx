@@ -17,12 +17,18 @@ const TopPopular = ({ data }) => {
 
                 <div className="book">
                     {data.map((data, index) => {
-                        const { id, name, img, author, price, description } =
-                            data;
+                        const {
+                            _id,
+                            name,
+                            thumbnail,
+                            author,
+                            price,
+                            description,
+                        } = data;
 
                         return (
                             <div
-                                key={id}
+                                key={_id}
                                 className={
                                     index === showDetailBook
                                         ? "book_detail active"
@@ -30,7 +36,7 @@ const TopPopular = ({ data }) => {
                                 }
                             >
                                 <img
-                                    src={img}
+                                    src={thumbnail}
                                     className="img"
                                     alt="Ảnh minh họa"
                                 />
@@ -39,9 +45,9 @@ const TopPopular = ({ data }) => {
                                     <h2 className="author">{author}</h2>
                                     <p className="description">{description}</p>
                                     <div className="wrap">
-                                        <h3 className="price">{price}</h3>
+                                        <h3 className="price">$ {price}</h3>
                                         <Link
-                                            to={`/book/:${id}`}
+                                            to={`/book/${_id}`}
                                             className="link"
                                         >
                                             See More
@@ -54,7 +60,7 @@ const TopPopular = ({ data }) => {
 
                     <div className="book_list">
                         {data.map((data, index) => {
-                            const { id, img } = data;
+                            const { id, thumbnail } = data;
                             return (
                                 <div
                                     key={id}
@@ -62,7 +68,7 @@ const TopPopular = ({ data }) => {
                                     onClick={() => setShowDetailBook(index)}
                                 >
                                     <img
-                                        src={img}
+                                        src={thumbnail}
                                         className="img"
                                         alt="Ảnh minh họa"
                                     />

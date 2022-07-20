@@ -93,12 +93,30 @@
         font-size: 1.5rem;
         line-height: 1.5rem;
         font-weight: 600;
-        padding: 10px 30px;
+        width: 100px;
+        height: 36px;
         margin: 20px 0;
         border: none;
         outline: none;
         cursor: pointer;
         border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .icon {
+            margin-right: 8px;
+            animation: spinner 1s linear infinite;
+        }
+
+        @keyframes spinner {
+            from {
+                transform: rotate(0);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         &:hover {
             opacity: 0.9;

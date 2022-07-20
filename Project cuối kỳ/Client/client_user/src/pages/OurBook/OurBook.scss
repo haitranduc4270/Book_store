@@ -3,9 +3,18 @@
 .ourBook_page {
     margin: $height_navbar 0 100px;
 
+    .select_wrap {
+        max-width: 1170px;
+        margin: 45px auto 0;
+
+        .search_type {
+            width: 25%;
+        }
+    }
+
     .container {
         max-width: 1170px;
-        margin: 100px auto 0;
+        margin: 30px auto 0;
 
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -62,6 +71,13 @@
 /* ===================== MEDIA QUERIES (MEDIUM SERVICE)================== */
 @media screen and (max-width: 1024px) {
     .ourBook_page {
+        .select_wrap {
+            padding: 0 12px;
+
+            .search_type {
+                width: 50%;
+            }
+        }
         .container {
             grid-template-columns: 1fr 1fr 1fr;
             gap: 30px 30px;
@@ -77,6 +93,12 @@
 /* ===================== MEDIA QUERIES (SMALL SERVICE) =================== */
 @media screen and (max-width: 600px) {
     .ourBook_page {
+        .select_wrap {
+            .search_type {
+                width: 100%;
+            }
+        }
+
         .container {
             grid-template-columns: 1fr;
             padding: 0 12px;
