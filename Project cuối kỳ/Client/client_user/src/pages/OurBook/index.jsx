@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import Select from "react-select";
@@ -145,8 +145,8 @@ const OurBook = () => {
         setItemOffset(0);
         if (typeBook !== "") {
             const data = booksData.filter((book) => book.type === typeBook);
-            setBooksDataShow(data);
             setSearchParams(`?type=${typeBook}`);
+            setBooksDataShow(data);
         } else {
             setSearchParams(``);
             setBooksDataShow(booksData);
