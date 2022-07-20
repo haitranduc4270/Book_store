@@ -11,11 +11,12 @@
     justify-content: center;
     align-items: center;
     background-color: $white_color;
+    // background-color: rgba(255, 255, 255, 0.6);
     z-index: 5;
 
     .spinner_icon {
-        font-size: 5rem;
-        line-height: 5rem;
+        font-size: 4rem;
+        line-height: 4rem;
         color: $primary_color;
         animation: spinner 1s linear infinite;
     }

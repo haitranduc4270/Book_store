@@ -141,3 +141,28 @@
         }
     }
 }
+
+/* ===================== MEDIA QUERIES (MEDIUM SERVICE)================== */
+@media screen and (max-width: 1024px) {
+    .ourBookDetail_wrap {
+        .container {
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            .content_wrap {
+                margin-top: 20px;
+
+                .name {
+                    font-size: 3rem;
+                }
+            }
+        }
+    }
+}
+
+/* ===================== MEDIA QUERIES (SMALL SERVICE) =================== */
+@media screen and (max-width: 600px) {
+}

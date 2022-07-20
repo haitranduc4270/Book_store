@@ -1,14 +1,15 @@
 import "./App.scss";
-import { Fragment, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import {
     BrowserRouter as Router,
     Routes,
     Route,
     useLocation,
 } from "react-router-dom";
-import { publicRoutes } from "./routes";
+import { privateRoutes, publicRoutes } from "./routes";
 import DefaultLayout from "./layouts/DefaultLayout";
 import UserContextProvider from "./contexts/UserContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // React Router Dom v6: Scroll To Top on Route Change
 const ScrollToTop = ({ children }) => {
@@ -28,18 +29,13 @@ function App() {
                         <Routes>
                             {publicRoutes.map((route, index) => {
                                 const Page = route.component;
-                                let Layout = DefaultLayout;
-
-                                if (route.layout === null) {
-                                    Layout = Fragment;
-                                }
 
                                 return (
                                     <Route
                                         key={index}
                                         path={route.path}
                                         element={
-                                            <Layout>
+                                            <>
                                                 <Page
                                                     authRoute={
                                                         route.authRoute
@@ -47,7 +43,26 @@ function App() {
                                                             : null
                                                     }
                                                 />
-                                            </Layout>
+                                            </>
+                                        }
+                                    />
+                                );
+                            })}
+                            {privateRoutes.map((route, index) => {
+                                const Page = route.component;
+
+                                return (
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        element={
+                                            <ProtectedRoute
+                                                layout={
+                                                    <DefaultLayout>
+                                                        <Page />
+                                                    </DefaultLayout>
+                                                }
+                                            />
                                         }
                                     />
                                 );

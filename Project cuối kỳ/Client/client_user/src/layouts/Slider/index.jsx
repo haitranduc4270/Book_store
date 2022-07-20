@@ -64,7 +64,7 @@ const Sliders = () => {
                             voluptatem accusantium dolor emque laudantium, totam
                             rem aperiam.ipsam voluptatem.
                         </p>
-                        <Link to="/" className="btn outline">
+                        <Link to="/book" className="btn outline">
                             BUY NOW
                         </Link>
                     </div>

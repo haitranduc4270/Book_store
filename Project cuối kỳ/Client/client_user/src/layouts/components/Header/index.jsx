@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BiSearchAlt2, BiMenu } from "react-icons/bi";
-import { BsCartCheck } from "react-icons/bs";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { MdAddShoppingCart } from "react-icons/md";
 
 import "./Header.scss";
 import images from "~/assets/images";
 import Search from "../Search";
+import { UserContext } from "~/contexts/UserContext";
 
 const getWindowSize = () => {
     const { innerWidth, innerHeight } = window;
@@ -17,6 +18,11 @@ const Header = () => {
     const [showSearch, setShowSearch] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [windowSize, setWindowSize] = useState(getWindowSize());
+
+    const {
+        userState: { userData },
+        logoutUser,
+    } = useContext(UserContext);
 
     // Get width screen to reponsive mobile
     useEffect(() => {
@@ -79,8 +85,7 @@ const Header = () => {
                             </div>
 
                             <Link to="/cartOrder" className="cart icon_wrap">
-                                <BsCartCheck className="icon" />
-                                {/* <span>10</span> */}
+                                <MdAddShoppingCart className="icon" />
                             </Link>
 
                             <div className="user">
@@ -93,9 +98,7 @@ const Header = () => {
                                 </div>
                                 <div className="user_text">
                                     <p className="user_hello">Hello,</p>
-                                    <p className="user_name">
-                                        Nguyễn Phương Nam
-                                    </p>
+                                    <p className="user_name">{userData.name}</p>
                                 </div>
 
                                 <div className="dropdown">
@@ -103,7 +106,7 @@ const Header = () => {
 
                                     <div className="user_action">
                                         <Link
-                                            to="/@profile"
+                                            to={`/user/${userData._id}`}
                                             className="user_action-item"
                                         >
                                             <p>Edit Profile</p>
@@ -111,6 +114,7 @@ const Header = () => {
                                         <Link
                                             to="/login"
                                             className="user_action-item"
+                                            onClick={() => logoutUser()}
                                         >
                                             <p>Logout</p>
                                         </Link>
@@ -142,7 +146,7 @@ const Header = () => {
                             className="cart icon_wrap"
                             onClick={() => setShowMenu(false)}
                         >
-                            <BsCartCheck className="icon" />
+                            <MdAddShoppingCart className="icon" />
                         </Link>
                         <div className="menu icon_wrap">
                             <BiMenu
@@ -181,7 +185,7 @@ const Header = () => {
                             <p>Contact Us</p>
                         </Link>
                         <Link
-                            to="/@profile"
+                            to={`/user/${userData._id}`}
                             className="action"
                             onClick={() => setShowMenu(false)}
                         >
@@ -197,19 +201,6 @@ const Header = () => {
                     </div>
                 </>
             )}
-
-            {/* <>
-                        <Button
-                            to="/register"
-                            disable
-                            className="disable outline header_btn"
-                        >
-                            Register
-                        </Button>
-                        <Button to="/login" className="outline header_btn">
-                            Login
-                        </Button>
-                    </> */}
 
             {/* Search Book */}
             <Search style={showSearch ? "active" : ""} />

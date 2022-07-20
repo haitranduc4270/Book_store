@@ -14,6 +14,11 @@ const Contact = () => {
 
     const form = useRef();
 
+    const alertData = {
+        title: "Send message",
+        message: "Send message to library manager successfully!",
+    };
+
     const sendEmail = (e) => {
         e.preventDefault();
 
@@ -39,7 +44,9 @@ const Contact = () => {
 
     return (
         <div className="contact_page">
-            {showDialog && <Dialog handleDialog={setShowDialog} />}
+            {showDialog && (
+                <Dialog handleDialog={setShowDialog} data={alertData} />
+            )}
             <HeadContentPage link="Contact" />
 
             <div className="content">

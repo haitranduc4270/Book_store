@@ -32,7 +32,7 @@ const HandlePrevArrow = (props) => {
     );
 };
 
-const TopCategory = ({ data }) => {
+const TopCategory = ({ data, handleDialog }) => {
     const settings = {
         dots: false,
         infinite: true,
@@ -73,15 +73,6 @@ const TopCategory = ({ data }) => {
 
     const handleTypeBook = (index) => {
         setTypeBookShow(index);
-
-        // const category = document.querySelector(".topCategory_wrap");
-        // const typeBooks = category.querySelectorAll(".book_wrap .list");
-        // const typeBookActive = category.querySelector(
-        //     ".book_wrap .list.active"
-        // );
-
-        // typeBookActive.classList.remove("active");
-        // typeBooks[index].classList.add("active");
     };
 
     return (
@@ -130,7 +121,11 @@ const TopCategory = ({ data }) => {
                                 <Slider {...settings}>
                                     {typeBook.map((book, index) => {
                                         return (
-                                            <BookItem key={index} data={book} />
+                                            <BookItem
+                                                key={index}
+                                                data={book}
+                                                handleDialog={handleDialog}
+                                            />
                                         );
                                     })}
                                 </Slider>

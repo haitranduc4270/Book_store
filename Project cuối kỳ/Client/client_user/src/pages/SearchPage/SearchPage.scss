@@ -1,5 +1,26 @@
 @import "../../App.scss";
 
+.not_result_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 60px;
+    .icon {
+        font-size: 8rem;
+        color: $primary_color;
+    }
+
+    p {
+        font-size: 4rem;
+        font-weight: 500;
+        line-height: 4.4rem;
+        text-transform: uppercase;
+        margin-top: 10px;
+        color: $secondary_color;
+    }
+}
+
 .ourBook_page {
     margin: $height_navbar 0 100px;
 
@@ -70,6 +91,16 @@
 
 /* ===================== MEDIA QUERIES (MEDIUM SERVICE)================== */
 @media screen and (max-width: 1024px) {
+    .not_result_wrap {
+        .icon {
+            font-size: 7rem;
+        }
+
+        p {
+            font-size: 4rem;
+        }
+    }
+
     .ourBook_page {
         .select_wrap {
             padding: 0 12px;
@@ -92,6 +123,17 @@
 
 /* ===================== MEDIA QUERIES (SMALL SERVICE) =================== */
 @media screen and (max-width: 600px) {
+    .not_result_wrap {
+        .icon {
+            font-size: 5rem;
+        }
+
+        p {
+            font-size: 2rem;
+            line-height: 2.4rem;
+        }
+    }
+
     .ourBook_page {
         .select_wrap {
             .search_type {

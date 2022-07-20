@@ -1,9 +1,8 @@
-import { createContext, useReducer } from "react";
-import { userReducer } from "~/reducers/userReducer";
-import request from "~/utils/httpRequest";
-
-import * as fakeFuncUser from "~/Fake/user";
+import axios from "axios";
+import { createContext, useEffect, useReducer } from "react";
 import config from "~/Config";
+import { userReducer } from "~/reducers/userReducer";
+import setAuthtoken from "~/utils/setAuthtoken";
 
 export const UserContext = createContext();
 
@@ -14,54 +13,254 @@ const UserContextProvider = ({ children }) => {
         isAuthenticated: false,
     });
 
-    // Login
-    const loginUser = async (userForm) => {
-        request
-            .get("users")
-            .then((res) => {
-                console.log(res.data);
-                console.log(userForm);
-                const data = fakeFuncUser.postUserLogin(userForm, res.data);
-                console.log(data);
+    // Authenticate user
+    const loadUser = async () => {
+        let localData;
+        if (localStorage[config.LOCAL_STORAGE_TOKEN_NAME]) {
+            localData = JSON.parse(
+                localStorage[config.LOCAL_STORAGE_TOKEN_NAME]
+            );
+            setAuthtoken(localData.token);
+        }
 
-                if (!!data) {
-                    localStorage.setItem(
-                        config.LOCAL_STORAGE_TOKEN_NAME,
-                        data.publicKey
-                    );
-                    return data;
-                } else {
-                    return {
-                        messError: "Email or password is incorrect!",
-                    };
-                }
-            })
-            .catch((err) => {
-                console.log(err);
+        try {
+            const res = await axios.get(
+                `${config.apiUrl}users/by-email?email=${localData.email}`
+            );
+
+            dispatch({
+                type: "SET_AUTH",
+                payload: {
+                    isAuthenticated: true,
+                    userData: res.data,
+                },
             });
+        } catch (error) {
+            localStorage.removeItem(config.LOCAL_STORAGE_TOKEN_NAME);
+            setAuthtoken(null);
+            dispatch({
+                type: "SET_AUTH",
+                payload: {
+                    isAuthenticated: false,
+                    userData: null,
+                },
+            });
+        }
     };
 
-    // Get User data (include: userInfo, userCart)
-    const getUserData = async () => {
-        request
-            .get("users?_id=1")
-            .then((res) => {
-                dispatch({
-                    type: "USER_DATA_LOADED_SUCCESS",
-                    payload: res.data,
-                });
+    useEffect(() => {
+        loadUser();
+    }, []);
 
-                console.log(res.data);
-            })
-            .catch((err) => {
+    // Login
+    const loginUser = async (userForm) => {
+        try {
+            const res = await axios.post(
+                `${config.apiUrl}login/user`,
+                JSON.stringify({
+                    email: userForm.email,
+                    publicKey: userForm.password,
+                })
+            );
+            const localData = {
+                email: userForm.email,
+                token: res.data.token,
+            };
+
+            if (res.data.success) {
+                localStorage.setItem(
+                    config.LOCAL_STORAGE_TOKEN_NAME,
+                    JSON.stringify(localData)
+                );
+            }
+
+            await loadUser();
+
+            return res.data;
+        } catch (error) {
+            console.log(error);
+            return {
+                succes: false,
+                message: "Errol mess",
+            };
+        }
+    };
+
+    // Register
+    const registerUser = async (userForm) => {
+        try {
+            const res = await axios.post(
+                `${config.apiUrl}users`,
+                JSON.stringify({
+                    ...userForm,
+                    publicKey: userForm.password,
+                })
+            );
+
+            if (res.data) {
+                return {
+                    success: true,
+                    data: res.data,
+                };
+            } else {
+                return {
+                    success: false,
+                };
+            }
+        } catch (error) {
+            console.log(error);
+            return {
+                success: false,
+                message: "Email already registered!",
+            };
+        }
+    };
+
+    // Update Profile
+    const updateProfile = async (profileForm) => {
+        try {
+            const dataUpdate = {
+                ...userState.userData,
+                ...profileForm,
+            };
+            const res = await axios.put(
+                `${config.apiUrl}users?userId=${userState.userData._id}`,
+                dataUpdate
+            );
+            if (res.data) {
                 dispatch({
-                    type: "USER_DATA_LOADED_FAILD",
+                    type: "UPDATE_USER_INFO",
+                    payload: {
+                        isAuthenticated: true,
+                        userData: dataUpdate,
+                    },
                 });
-            });
+                return res.data;
+            }
+        } catch (error) {
+            return error;
+        }
+    };
+
+    // Add Cart
+    const addToCart = async (dataBook) => {
+        const cartUpdate = [...userState.userData.cart, dataBook];
+
+        const dataUpdate = {
+            ...userState.userData,
+            cart: cartUpdate,
+        };
+
+        try {
+            const res = await axios.put(
+                `${config.apiUrl}users?userId=${userState.userData._id}`,
+                dataUpdate
+            );
+            if (res.data) {
+                dispatch({
+                    type: "UPDATE_USER_INFO",
+                    payload: {
+                        isAuthenticated: true,
+                        userData: dataUpdate,
+                    },
+                });
+                return res.data;
+            }
+        } catch (error) {
+            return error;
+        }
+    };
+
+    // Delete Cart
+    const deleteToCart = async (idBook) => {
+        const data = userState.userData.cart.filter(
+            (cart) => cart._id !== idBook
+        );
+
+        const dataUpdate = {
+            ...userState.userData,
+            cart: data,
+        };
+
+        try {
+            const res = await axios.put(
+                `${config.apiUrl}users?userId=${userState.userData._id}`,
+                dataUpdate
+            );
+            if (res.data) {
+                dispatch({
+                    type: "UPDATE_USER_INFO",
+                    payload: {
+                        isAuthenticated: true,
+                        userData: dataUpdate,
+                    },
+                });
+                return res.data;
+            }
+        } catch (error) {
+            return error;
+        }
+    };
+
+    // Order Cart
+    const orderToCart = async () => {
+        const dataUpdate = {
+            ...userState.userData,
+            cart: [],
+        };
+
+        try {
+            const res = await axios.put(
+                `${config.apiUrl}users?userId=${userState.userData._id}`,
+                dataUpdate
+            );
+            if (res.data) {
+                dispatch({
+                    type: "UPDATE_USER_INFO",
+                    payload: {
+                        isAuthenticated: true,
+                        userData: dataUpdate,
+                    },
+                });
+                return res.data;
+            }
+        } catch (error) {
+            return error;
+        }
+    };
+
+    // Logout
+    const logoutUser = async () => {
+        try {
+            const res = await axios.get(`${config.apiUrl}logout`);
+            if (res.data.success) {
+                localStorage.removeItem(config.LOCAL_STORAGE_TOKEN_NAME);
+                dispatch({
+                    type: "SET_AUTH",
+                    payload: {
+                        isAuthenticated: false,
+                        user: null,
+                    },
+                });
+                return res.data;
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     };
 
     // Context data
-    const useContextData = { userState, getUserData, loginUser };
+    const useContextData = {
+        userState,
+        loginUser,
+        registerUser,
+        logoutUser,
+        updateProfile,
+        addToCart,
+        deleteToCart,
+        orderToCart,
+    };
 
     // Return provider
     return (
