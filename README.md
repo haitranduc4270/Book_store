@@ -1,4 +1,4 @@
-## Công nghệ web và dịch vụ trưc tuyến
+## Book store
 
 ### Nhóm Newbie gồm các thành viên:
 
